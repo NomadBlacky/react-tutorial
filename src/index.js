@@ -99,9 +99,15 @@ class Game extends React.Component {
       } else {
         desc = 'Go to game start';
       }
+      const fontWeight = this.state.stepNumber === move ? 'bold' : 'normal';
       return (
           <li key={move}>
-            <button onClick={() => this.jumpTo(move)}>{desc}</button>
+            <button
+              onClick={() => this.jumpTo(move)}
+              style={{fontWeight}}
+            >
+              {desc}
+            </button>
           </li>
       );
     });
@@ -149,7 +155,6 @@ function calculateWinner(squares) {
   }
   return null;
 }
-
 function calculateLocation(index) {
   return {
     x: index % 3 + 1,
