@@ -32,6 +32,10 @@ class Board extends React.Component {
   }
 }
 
+function Ordering(props) {
+  return <button onClick={props.onClick}>{props.isAsc ? "↓" : "↑"}</button>;
+}
+
 class Game extends React.Component {
   constructor(props) {
     super(props);
@@ -41,6 +45,7 @@ class Game extends React.Component {
       }],
       stepNumber: 0,
       xIsNext: true,
+      isAsc: true,
     };
   }
   
@@ -66,6 +71,12 @@ class Game extends React.Component {
     this.setState({
       stepNumber: step,
       xIsNext: (step % 2) === 0,
+    });
+  }
+
+  toggleOrdering() {
+    this.setState({
+      isAsc: !this.state.isAsc
     });
   }
 
@@ -100,6 +111,9 @@ class Game extends React.Component {
           </li>
       );
     });
+    if (!this.state.isAsc) {
+      moves.reverse();
+    }
     
     return (
       <div className="game">
@@ -111,7 +125,13 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <div>
+            <Ordering
+              isAsc={this.state.isAsc}
+              onClick={() => this.toggleOrdering()}
+            />
+          </div>
+          <ol reversed={this.state.isAsc ? "" : "reversed"}>{moves}</ol>
         </div>
       </div>
     );
